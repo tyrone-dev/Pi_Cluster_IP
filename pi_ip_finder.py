@@ -15,9 +15,9 @@ import argparse
 from logger import LOGGER
 from email.mime.text import MIMEText
 
-user = "vanmatrix@gmail.com"
-password = "m@triX722ssx^.^="
-to = "vanmatrix@gmail.com"
+user = ""
+password = ""
+to = "gmail.com"
 # Wait till RPi settles
 time.sleep(5)
 
