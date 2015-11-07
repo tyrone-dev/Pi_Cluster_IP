@@ -15,9 +15,9 @@ import argparse
 from logger import LOGGER
 from email.mime.text import MIMEText
 
-user = "your email here"
-password = "password"
-to = "your email here"
+user = "vanmatrix@gmail.com"
+password = "m@triX722ssx^.^="
+to = "vanmatrix@gmail.com"
 # Wait till RPi settles
 time.sleep(5)
 
@@ -33,7 +33,7 @@ args = parser.parse_args()
 
 def check_ip():
     Prev_IP = None
-    with open('/IP_Logger.csv', 'r+') as csv_file:
+    with open('IP_Logger.csv', 'r+') as csv_file:
         # check if prev ip exists
         lines = csv_file.readlines()
         for i in range(-1, -len(lines) - 1, -1):
@@ -77,11 +77,18 @@ class Find_IP(object):
 
     def find_ip(self):
         arg = 'ip route list'
-        p = subprocess.Popen(arg, shell=True, stdout=subprocess.PIPE)
-        data = p.communicate()
-        split_data = data[0].split()
-        self.ip_addr = split_data[split_data.index('src') + 1]
-        self.ext_ipaddr = urllib2.urlopen("http://icanhazip.com").read().strip()
+        # time to get IP varies on each reboot, so try to find IP continuously
+        while (True):
+            try:
+                p = subprocess.Popen(arg, shell=True, stdout=subprocess.PIPE)
+                data = p.communicate()
+                split_data = data[0].split()
+                self.ip_addr = split_data[split_data.index('src') + 1]
+                self.ext_ipaddr = urllib2.urlopen("http://icanhazip.com").read().strip()
+                break
+            except:
+                continue  
+        
         LOGGER.info('Local IP:,{}'.format(self.ip_addr))
 
     def force_send(self):
